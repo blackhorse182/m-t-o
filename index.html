@@ -14,16 +14,21 @@
       <input type="text" id="city-input" placeholder="Entrez le nom d'une ville">
       <button id="get-forecast">Obtenir la météo</button>
     </div>
-    <div class="weather-display" id="weather-display" style="display: none;">
-      <h2 id="location"></h2>
-      <img id="weather-icon" alt="Icône météo">
-      <div class="weather-details">
-        <p><span class="label">Condition :</span> <span id="weather-main"></span></p>
-        <p><span class="label">Température :</span> <span id="main-temperature"></span></p>
-        <p><span class="label">Ressenti :</span> <span id="feels-like"></span></p>
-        <p><span class="label">Humidité :</span> <span id="humidity"></span></p>
-        <p><span class="label">Vitesse du vent :</span> <span id="wind"></span></p>
-        <p><span class="label">Rafales :</span> <span id="wind-gust"></span></p>
+    <div class="weather-container">
+      <div class="weather-display" id="weather-display" style="display: none;">
+        <h2 id="location"></h2>
+        <img id="weather-icon" alt="Icône météo">
+        <div class="weather-details">
+          <p><span class="label">Condition :</span> <span id="weather-main"></span></p>
+          <p><span class="label">Température :</span> <span id="main-temperature"></span></p>
+          <p><span class="label">Ressenti :</span> <span id="feels-like"></span></p>
+          <p><span class="label">Humidité :</span> <span id="humidity"></span></p>
+          <p><span class="label">Vitesse du vent :</span> <span id="wind"></span></p>
+          <p><span class="label">Rafales :</span> <span id="wind-gust"></span></p>
+        </div>
+      </div>
+      <div class="forecast-display" id="forecast-display" style="display: flex; flex-wrap: wrap; gap: 1rem;">
+        <!-- Les prévisions météo seront insérées ici -->
       </div>
     </div>
   </div>

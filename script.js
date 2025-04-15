@@ -2,15 +2,15 @@ async function getWeather(city) {
     const apiKey = '7a08a5f41bc17fa8f76a40450d124171';
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&lang=fr&appid=${apiKey}`;
     try {
-      const response = await fetch(apiUrl);
-      if (response.status === 401) return { data: null, error: 'Clé API invalide' };
-      if (response.status === 404) return { data: null, error: 'Ville introuvable' };
-      if (!response.ok) throw new Error(`Erreur : ${response.status}`);
-      const data = await response.json();
-      return { data, error: null };
+        const response = await fetch(apiUrl);
+        if (response.status === 401) return { data: null, error: 'Clé API invalide' };
+        if (response.status === 404) return { data: null, error: 'Ville introuvable' };
+        if (!response.ok) throw new Error(`Erreur : ${response.status}`);
+        const data = await response.json();
+        return { data, error: null };
     } catch (error) {
-      console.error('Erreur lors de la récupération des données météo :', error);
-      return { data: null, error: 'Erreur réseau ou API indisponible' };
+        console.error('Erreur lors de la récupération des données météo :', error);
+        return { data: null, error: 'Erreur réseau ou API indisponible' };
     }
 }
 
@@ -53,28 +53,31 @@ async function showWeather(city) {
     document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     document.getElementById('weather-icon').alt = data.weather?.[0]?.description || 'Icône météo';
     document.getElementById('weather-main').textContent = data.weather?.[0]?.description || 'N/A';
-    document.getElementById('main-temperature').textContent = data.main?.temp != null ? `${data.main.temp} °C` : 'N/A';
-    document.getElementById('feels-like').textContent = data.main?.feels_like != null ? `${data.main.feels_like} °C` : 'N/A';
-    document.getElementById('humidity').textContent = data.main?.humidity != null ? `${data.main.humidity}%` : 'N/A';
-    document.getElementById('wind').textContent = data.wind?.speed != null ? `${data.wind.speed} m/s` : 'N/A';
-    document.getElementById('wind-gust').textContent = data.wind?.gust != null ? `${data.wind.gust} m/s` : 'N/A';
+    document.getElementById('main-temperature').textContent = data.main?.temp != null ? `${Math.round(data.main.temp)} °C` : 'N/A';
+    document.getElementById('feels-like').textContent = data.main?.feels_like != null ? `${Math.round(data.main.feels_like)} °C` : 'N/A';
+    document.getElementById('humidity').textContent = data.main?.humidity != null ? `${Math.round(data.main.humidity)}%` : 'N/A';
+    document.getElementById('wind').textContent = data.wind?.speed != null ? `${Math.round(data.wind.speed)} m/s` : 'N/A';
+    document.getElementById('wind-gust').textContent = data.wind?.gust != null ? `${Math.round(data.wind.gust)} m/s` : 'N/A';
 
-    // Afficher les prévisions météo sur 5 jours
+    // Afficher les prévisions météo sur 3 jours
     if (forecastResult.data) {
         const forecastData = forecastResult.data.list;
         forecastDisplay.innerHTML = ''; // Réinitialiser les prévisions
-        for (let i = 0; i < forecastData.length; i += 8) { // 8 entrées par jour
+        let daysDisplayed = 0; // Compteur pour limiter à 3 jours
+        for (let i = 0; i < forecastData.length && daysDisplayed < 3; i += 8) { // 8 entrées par jour
             const forecast = forecastData[i];
             const forecastElement = document.createElement('div');
             forecastElement.classList.add('forecast-item');
             forecastElement.innerHTML = `
-                <p><strong>${new Date(forecast.dt_txt).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</strong></p>
-                <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
-                <p>${forecast.weather[0].description}</p>
-                <p>Température : ${forecast.main.temp} °C</p>
-                <p>Humidité : ${forecast.main.humidity}%</p>
+    <p><strong>${new Date(forecast.dt_txt).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</strong></p>
+    <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
+    <p>${forecast.weather[0].description}</p>
+    <p>Température : ${Math.round(forecast.main.temp)} °C</p>
+    <p>Température ressentie : ${Math.round(forecast.main.feels_like)} °C</p>
+<p>Humidité : ${Math.round(forecast.main.humidity)}%</p>
             `;
             forecastDisplay.appendChild(forecastElement);
+            daysDisplayed++; // Incrémenter le compteur
         }
     }
 }
@@ -97,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
         getForecastBtn.disabled = true;
         await showWeather(city);
         getForecastBtn.disabled = false;
-        !document.getElementById('weather-display').style.display === 'block'
-            ? (errorMessage.style.display = 'block')
-            : (errorMessage.style.display = 'none');
+        document.getElementById('weather-display').style.display === 'block'
+            ? (errorMessage.style.display = 'none')
+            : (errorMessage.style.display = 'block');
     };
 
     // Gestion du clic sur le bouton
