@@ -89,4 +89,39 @@ body {
     font-weight: bold;
     color: #555;
   }
+
+  #city-input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+  }
   
+  #city-input:focus {
+    border-color: #74ebd5;
+  }
+
+  .forecast-display {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+
+  .forecast-item {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 150px;
+  }
+
+  .forecast-item img {
+    max-width: 100%;
+    height: auto;
+  }
