@@ -69,12 +69,13 @@ async function showWeather(city) {
             const forecastElement = document.createElement('div');
             forecastElement.classList.add('forecast-item');
             forecastElement.innerHTML = `
-    <p><strong>${new Date(forecast.dt_txt).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</strong></p>
-    <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
-    <p>${forecast.weather[0].description}</p>
-    <p>Température : ${Math.round(forecast.main.temp)} °C</p>
-    <p>Température ressentie : ${Math.round(forecast.main.feels_like)} °C</p>
-<p>Humidité : ${Math.round(forecast.main.humidity)}%</p>
+                <p><strong>${new Date(forecast.dt_txt).toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}</strong></p>
+                <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
+                <p>${forecast.weather[0].description}</p>
+                <p>Température : ${Math.round(forecast.main.temp)} °C</p>
+                <p>Température ressentie : ${Math.round(forecast.main.feels_like)} °C</p>
+                <p>Humidité : ${Math.round(forecast.main.humidity)}%</p>
+                <p>Risque de pluie : ${Math.round(forecast.pop * 100)}%</p>
             `;
             forecastDisplay.appendChild(forecastElement);
             daysDisplayed++; // Incrémenter le compteur
