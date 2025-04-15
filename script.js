@@ -36,6 +36,7 @@ async function showWeather(city) {
     const errorMessage = document.getElementById('error-message');
     const weatherDisplay = document.getElementById('weather-display');
     const forecastDisplay = document.getElementById('forecast-display');
+    const hourlyForecastDisplay = document.getElementById('hourly-forecast-display');
 
     if (result.error || !weatherDisplay) {
         if (errorMessage) {
@@ -62,7 +63,7 @@ async function showWeather(city) {
     // Afficher les prévisions météo sur 3 jours
     if (forecastResult.data) {
         const forecastData = forecastResult.data.list;
-        forecastDisplay.innerHTML = ''; // Réinitialiser les prévisions
+        forecastDisplay.innerHTML = ''; // Réinitialiser les prévisions journalières
         let daysDisplayed = 0; // Compteur pour limiter à 3 jours
         for (let i = 0; i < forecastData.length && daysDisplayed < 3; i += 8) { // 8 entrées par jour
             const forecast = forecastData[i];
@@ -78,7 +79,25 @@ async function showWeather(city) {
                 <p>Risque de pluie : ${Math.round(forecast.pop * 100)}%</p>
             `;
             forecastDisplay.appendChild(forecastElement);
-            daysDisplayed++; // Incrémenter le compteur
+            daysDisplayed++;
+        }
+
+        // Afficher les prévisions heure par heure pour les 24 prochaines heures
+        if (hourlyForecastDisplay) {
+            hourlyForecastDisplay.innerHTML = ''; // Réinitialiser les prévisions horaires
+            for (let i = 0; i < Math.min(8, forecastData.length); i++) { // 8 intervalles = 24 heures
+                const forecast = forecastData[i];
+                const forecastElement = document.createElement('div');
+                forecastElement.classList.add('hourly-forecast-item');
+                forecastElement.innerHTML = `
+                    <p><strong>${new Date(forecast.dt_txt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}</strong></p>
+                    <img src="https://openweathermap.org/img/wn/${forecast.weather[0].icon}@2x.png" alt="${forecast.weather[0].description}">
+                    <p>${forecast.weather[0].description}</p>
+                    <p>Temp : ${Math.round(forecast.main.temp)} °C</p>
+                    <p>Risque de pluie : ${Math.round(forecast.pop * 100)}%</p>
+                `;
+                hourlyForecastDisplay.appendChild(forecastElement);
+            }
         }
     }
 }

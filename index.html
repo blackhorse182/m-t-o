@@ -14,6 +14,7 @@
       <input type="text" id="city-input" placeholder="Entrez le nom d'une ville">
       <button id="get-forecast">Obtenir la météo</button>
     </div>
+    <p id="error-message" style="color: red; display: none;">Nom de ville invalide. Veuillez réessayer.</p>
     <div class="weather-container">
       <div class="weather-display" id="weather-display" style="display: none;">
         <h2 id="location"></h2>
@@ -27,8 +28,11 @@
           <p><span class="label">Rafales :</span> <span id="wind-gust"></span></p>
         </div>
       </div>
-      <div class="forecast-display" id="forecast-display" style="display: flex; flex-wrap: wrap; gap: 1rem;">
-        <!-- Les prévisions météo seront insérées ici -->
+      <div class="forecast-display" id="forecast-display">
+        <!-- Les prévisions météo journalières seront insérées ici -->
+      </div>
+      <div class="hourly-forecast-display" id="hourly-forecast-display">
+        <!-- Les prévisions météo horaires seront insérées ici -->
       </div>
     </div>
   </div>
